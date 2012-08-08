@@ -1,0 +1,13 @@
+Source: poker-distutils
+Section: python
+Priority: optional
+Maintainer: Hannes <hannes@pokermania.de>
+Build-Depends: debhelper, python (>= 2.6.6)
+Standards-Version: 3.9.1
+Homepage: http://github.com/tuco86/poker-distutils
+
+Package: python-poker-distutils
+Section: python
+Architecture: all
+Depends: ${misc:Depends}, python (>= 2.6.6), python-simplejson
+Description: distutils extensions. (eg. configure, test)
