@@ -54,7 +54,7 @@ class configure(Command):
                 try:
                     _fd_o.write(_re.sub(lambda m: str(eval(m.group(1), {
                         'version': self.distribution.get_version(),
-                        'srcdir': self._dir,
+                        'srcdir': os.getcwd(),
                         'config': config
                     })), _fd_i.read()))
                 except NameError as e:
