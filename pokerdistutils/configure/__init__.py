@@ -22,10 +22,15 @@ class configure(Command):
         self.set = None
         self.reset = 0
         self.build = 0
+        self.files = []
 
     def finalize_options(self):
         if self.set:
             self.set = [(p,v) for p, v in [p.split('=') for p in self.set.split(',')]]
+        if self.files:
+            _tmp, self.files = self.files.split(), []
+            for _glob in _tmp:
+                self.files.extend(glob(_glob))
 
     def run(self):
         '''
@@ -46,7 +51,7 @@ class configure(Command):
         if self.build:
             _re = re.compile(r'@([a-zA-Z\._]*)@')
             
-            for _file in glob('*.in') + glob('*/*.in') + glob('*/*/*.in'):
+            for _file in self.files:
                 _out_file = _file[:-3]
                 print _file, '->', _out_file
                 _fd_i = open(_file, 'r')
