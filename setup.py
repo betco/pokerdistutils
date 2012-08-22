@@ -9,6 +9,5 @@ setup(
     packages = [
         'pokerdistutils',
         'pokerdistutils/configure',
-        'pokerdistutils/test',
     ]
 )
