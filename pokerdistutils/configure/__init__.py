@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from distutils.core import Command
+import distutils.core
 import re, os
 from glob import glob
 from config import Config
 
-class configure(Command):
+class configure(distutils.core.Command):
     
     description = 'configure .in files'
         
