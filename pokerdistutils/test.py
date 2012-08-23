@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import distutils.core
-import sys
+import sys, subprocess
 from glob import glob
-import unittest
-from imp import load_source
-import os.path
 
 def _import(m):
     from imp import load_module as _load, find_module as _find
@@ -19,13 +16,13 @@ class test(distutils.core.Command):
     description = "runs all tests"
 
     user_options = [
-        ('failfast', 'f', 'exit on first failing test')
+        ('parallel', 'p', 'parallel execution of tests')
     ]
 
-    boolean_options = ['failfast']
+    boolean_options = ['parallel']
 
     def initialize_options(self):
-        self.failfast = False
+        self.parallel = False
         self.verbosity = 1
         self.files = []
 
@@ -39,17 +36,16 @@ class test(distutils.core.Command):
         """
         Runs all tests
         """
-        fail = 0
-        for test in self.files:
-            test_mod = load_source(os.path.basename(test)[:-3], test)
-            test_mod_path = os.path.dirname(os.path.realpath(test_mod.__file__))
+        test_processes = ((test, subprocess.Popen(['/usr/bin/env', 'python', test], stdout=-1, stderr=-1)) for test in self.files)
+        if self.parallel:
+            test_processes = list(test_processes)
+        for test, p in test_processes:
             print "\nrunning", test
-            if test_mod_path not in sys.path:
-                sys.path.append(test_mod_path)
-            runner = unittest.TextTestRunner(verbosity=self.verbosity)
-            result = runner.run(test_mod.GetTestSuite())
-            if len(result.failures) > 0 or len(result.errors):
-                fail += len(result.failures) + len(result.errors)
-                if self.failfast:
+            while True:
+                buf = p.stderr.read(1)
+                if not  buf:
                     break
-        sys.exit(fail)
+                sys.stdout.write(buf)
+                sys.stdout.flush()
+            p.wait()
+        sys.exit(sum(p.wait() for test, p in test_processes))
