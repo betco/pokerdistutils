@@ -12,7 +12,7 @@ Package: python-poker-distutils
 Section: python
 Architecture: all
 Provides: ${python:Provides}
-X-Python-Version: ${python:Versions}
+X-Python-Version: >= 2.6
 Depends:
     ${misc:Depends},
     ${python:Depends},
