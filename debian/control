@@ -1,7 +1,8 @@
 Source: poker-distutils
 Section: python
 Priority: optional
-Maintainer: Hannes <hannes@pokermania.de>
+Maintainer: Hannes Uebelacker <hannes@pokermania.de>
+X-Python-Version: >= 2.6, << 3.0
 Build-Depends:
     debhelper,
     python-all
@@ -12,7 +13,6 @@ Package: python-poker-distutils
 Section: python
 Architecture: all
 Provides: ${python:Provides}
-X-Python-Version: >= 2.6
 Depends:
     ${misc:Depends},
     ${python:Depends},
