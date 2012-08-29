@@ -36,7 +36,7 @@ class test(distutils.core.Command):
         """
         Runs all tests
         """
-        test_processes = ((test, subprocess.Popen(['/usr/bin/env', 'python', test], stdout=-1, stderr=subprocess.STDOUT)) for test in self.files)
+        test_processes = ((test, subprocess.Popen(['/usr/bin/env', 'python', test], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)) for test in self.files)
         if self.parallel:
             test_processes = list(test_processes)
         for test, p in test_processes:
