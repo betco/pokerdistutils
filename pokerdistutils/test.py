@@ -36,6 +36,7 @@ class test(distutils.core.Command):
         """
         Runs all tests
         """
+	returnval = 0
         test_processes = ((test, subprocess.Popen(['/usr/bin/env', 'python', test], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)) for test in self.files if os.access(test, os.X_OK))
         if self.parallel:
             test_processes = list(test_processes)
@@ -47,5 +48,5 @@ class test(distutils.core.Command):
                     break
                 sys.stdout.write(buf)
                 sys.stdout.flush()
-            p.wait()
-        sys.exit(sum(p.wait() for test, p in test_processes))
+            returnval += p.wait()
+        sys.exit(returnval)
