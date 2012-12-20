@@ -1,4 +1,4 @@
-Source: poker-distutils
+Source: pokerdistutils
 Section: python
 Priority: optional
 Maintainer: Hannes Uebelacker <hannes@pokermania.de>
