@@ -45,6 +45,7 @@ class configure(distutils.core.Command):
         
         if self.set:
             for path, value in self.set:
+                print 'setting', path, '=', value
                 config.set(path, value)
             config.save()
         
