@@ -28,6 +28,8 @@ class Node(object):
             try:
                 _gkey = self._config._get_global("%s" % (self._get_path(key)))
             except KeyError:
+                if key.startswith('__') and key.endswith('__'):
+                    return None
                 raise ConfigError("'%s' not in default config" % (self._get_path(key),))
             if type(_gkey) is dict:
                 return Node(self._get_path(key), self._config)
